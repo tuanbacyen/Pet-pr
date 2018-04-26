@@ -32,6 +32,12 @@ class AabmttController < ApplicationController
     result_to_view tinhmodto(@soxi, @soai, @son)
   end
 
+  def timmod
+    @soa = params[:soa].to_i
+    @son = params[:son].to_i
+    result_to_view tinhmod(@soa, @son)
+  end
+
   private
   def result_to_view a
     respond_to do |format|

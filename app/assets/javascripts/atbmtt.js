@@ -27,6 +27,13 @@ $(document).ready(function(){
     send_ajax_big(a, x, n, 'timbigmod');
   });
 
+  $("#mod-tk").click(function(){
+    var a = parseInt($('#mod-soa').val().trim());
+    var n = parseInt($('#mod-son').val().trim());
+
+    send_ajax_mod(a, n, 'timmod');
+  });
+
   $("#ptnd-check-all").change(function(){
     var a = parseInt($('#ptnd-soa').val().trim());
     var n = parseInt($('#ptnd-son').val().trim());
@@ -78,6 +85,21 @@ $(document).ready(function(){
       dataType: 'json',
       success: function(data){
         $('#bigmod-show-kq').html(data.data);
+      },
+      error: function (error_message){
+        alert(error_message);
+      }
+    });
+  }
+
+  function send_ajax_mod(a, n, url) {
+    $.ajax({
+      type: 'POST',
+      url: url,
+      data: {soa: a, son: n},
+      dataType: 'json',
+      success: function(data){
+        $('#mod-show-kq').html(data.data);
       },
       error: function (error_message){
         alert(error_message);
