@@ -2,6 +2,7 @@ class AabmttController < ApplicationController
   before_action
 
   def index
+    puts tinhmodto 88, 125, 82
   end
 
   def timptnd
@@ -9,7 +10,7 @@ class AabmttController < ApplicationController
     @son = params[:son].to_i
     @check = params[:check].to_i
     if @check == 0
-      render_request_destroy timamutrumot(@soa, @son)
+      result_to_view timamutrumot(@soa, @son)
     else
       temp = []
       for i in 1...@son
@@ -20,12 +21,19 @@ class AabmttController < ApplicationController
           end
         end
       end
-      render_request_destroy temp
+      result_to_view temp
     end
   end
 
+  def timbigmod
+    @soxi = params[:sox].to_i
+    @soai = params[:soa].to_i
+    @son = params[:son].to_i
+    result_to_view tinhmodto(@soxi, @soai, @son)
+  end
+
   private
-  def render_request_destroy a
+  def result_to_view a
     respond_to do |format|
       format.json  {
         render json: {
@@ -62,5 +70,27 @@ class AabmttController < ApplicationController
       end
     end
     return a
+  end
+
+  def tinhmodto xi, ai, n
+    x = xi
+    a = ai
+    d = 1
+    while x != 0
+      if x.odd?
+        d = tinhmod d*a, n
+      end
+      x = (x / 2).to_i
+      a = tinhmod (a*a), n
+    end
+    return d
+  end
+
+  def tinhmod a, m
+    mod = a % m
+    while (mod < 0)
+      mod += m
+    end
+    return mod
   end
 end

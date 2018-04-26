@@ -19,6 +19,14 @@ $(document).ready(function(){
     }
   });
 
+  $("#bigmod-tk").click(function(){
+    var a = parseInt($('#bigmod-soa').val().trim());
+    var x = parseInt($('#bigmod-sox').val().trim());
+    var n = parseInt($('#bigmod-son').val().trim());
+
+    send_ajax_big(a, x, n, 'timbigmod');
+  });
+
   $("#ptnd-check-all").change(function(){
     var a = parseInt($('#ptnd-soa').val().trim());
     var n = parseInt($('#ptnd-son').val().trim());
@@ -55,6 +63,21 @@ $(document).ready(function(){
           }
           $('#ptnd-show-kq').html(show);
         }
+      },
+      error: function (error_message){
+        alert(error_message);
+      }
+    });
+  }
+
+  function send_ajax_big(a, x, n, url) {
+    $.ajax({
+      type: 'POST',
+      url: url,
+      data: {soa: a, sox: x, son: n},
+      dataType: 'json',
+      success: function(data){
+        $('#bigmod-show-kq').html(data.data);
       },
       error: function (error_message){
         alert(error_message);
