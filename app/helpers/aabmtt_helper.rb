@@ -1,0 +1,2 @@
+module AabmttHelper
+end
