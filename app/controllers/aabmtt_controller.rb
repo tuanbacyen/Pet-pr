@@ -2,7 +2,6 @@ class AabmttController < ApplicationController
   before_action
 
   def index
-    puts tinhmodto 88, 125, 82
   end
 
   def timptnd
@@ -10,18 +9,18 @@ class AabmttController < ApplicationController
     @son = params[:son].to_i
     @check = params[:check].to_i
     if @check == 0
-      result_to_view timamutrumot(@soa, @son)
+      result_to_view timamutrumot @soa, @son
     else
       temp = []
       for i in 1...@son
         if UCLN(i, @son) == 1
-          @kq = timamutrumot i, @son
+          @kq = timamutrumot(i, @son)[0]
           if @kq != 1
             temp.push("#{i}-#{@kq}")
           end
         end
       end
-      result_to_view temp
+      result_to_view [temp,0,0]
     end
   end
 
@@ -35,7 +34,7 @@ class AabmttController < ApplicationController
   def timmod
     @soa = params[:soa].to_i
     @son = params[:son].to_i
-    result_to_view tinhmod(@soa, @son)
+    result_to_view [tinhmod(@soa, @son),0,0]
   end
 
   private
@@ -43,7 +42,9 @@ class AabmttController < ApplicationController
     respond_to do |format|
       format.json  {
         render json: {
-          data: a
+          data: a[0],
+          x: a[1],
+          b: a[2]
         }
       }
     end
@@ -60,11 +61,10 @@ class AabmttController < ApplicationController
       i = i + 1
     end
     kq = bb[i]
-    if kq > 0
-      return kq
-    else
-      return kq + n
+    unless kq > 0
+      kq += n
     end
+    return [kq, x, bb]
   end
 
   def UCLN a, b
@@ -80,16 +80,22 @@ class AabmttController < ApplicationController
 
   def tinhmodto xi, ai, n
     x = xi
+    x1 = [xi]
     a = ai
+    a1 = [ai]
     d = 1
+    d1 = [d]
     while x != 0
       if x.odd?
         d = tinhmod d*a, n
       end
+      d1.push(d)
       x = (x / 2).to_i
       a = tinhmod (a*a), n
+      x1.push(x)
+      a1.push(a)
     end
-    return d
+    return [d1,x1,a1]
   end
 
   def tinhmod a, m
