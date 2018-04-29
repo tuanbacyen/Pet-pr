@@ -1,5 +1,6 @@
 $(document).ready(function(){
   $("#ahihi").click(function(){
+    $('#qrcode').qrcode("hello");
     var a = $('#txt').val().trim();
     if(a != ''){
       var b = stringToBinary(a);
