@@ -1,14 +1,21 @@
 $(document).ready(function(){
   $("#ahihi").click(function(){
-    $('#qrcode').qrcode("hello");
     var a = $('#txt').val().trim();
     if(a != ''){
-      var b = stringToBinary(a);
-      $("#rel").html(b);
-      var cp = '<button type="button" class="btn btn-primary" id="mycopy">Copy</button>';
+      clear();
+      var he = parseInt($('#select-end-code').val().toString());
+      if(he == 999){
+        stringToQrcode(a);
+      }else{
+        var b = stringToBinary(a, he);
+        $("#rel").html(b);
+        var cp = '<button type="button" class="btn btn-primary" id="mycopy">Copy</button>';
+        if (!$("#mycopy").length){
+          $('#show-rel').append(cp);
+        }
+      }
       var cl = '<button type="button" class="btn btn-light" id="myclear">Clear</button>';
-      if (!$("#mycopy").length){
-        $('#show-rel').append(cp);
+      if(!$("#myclear").length){
         $('#show-rel').append(cl);
       }
     }
@@ -17,7 +24,8 @@ $(document).ready(function(){
   $("#aaaa").click(function(){
     var a = $('#txtCode').val().trim();
     if(a != ''){
-      var b = binaryToString(a.split(' '));
+      var he = parseInt($('#select-end-code').val().toString());
+      var b = binaryToString(a.split(' '), he);
       $(this).attr('href', b.trim());
     }
   });
@@ -30,30 +38,39 @@ $(document).ready(function(){
     }
   });
   $('body').on('click', '#myclear', function(){
-    $('#txtCode').val('');
-    $("#rel").html('');
-    $('#mycopy').remove();
+    clear();
     $(this).remove();
   });
 
-  function stringToBinary(a){
-    if(a.includes('http') && a.includes('//')){
+  function clear(){
+    $('#qrcode').html(' ');
+    $("#rel").html('');
+    $('#mycopy').remove();
+    $('#txtCode').val('');
+  }
 
+  function stringToBinary(a, h){
+    if(a.includes('http') && a.includes('//')){
     }
     else{
       a = 'https://' + a;
     }
     var b = '';
     for (var i = 0; i < a.length; i++) {
-      b += a[i].charCodeAt(0).toString(2) + " ";
+      b += a[i].charCodeAt(0).toString(h) + " ";
     }
     return b.trim();
   }
 
-  function binaryToString(a){
+  function stringToQrcode(a){
+    $('#qrcode').html('');
+    $('#qrcode').qrcode(a.toString());
+  }
+
+  function binaryToString(a, h){
     var result = '';
     for (var i = 0; i < a.length; i++) {
-      result += String.fromCharCode(parseInt(a[i], 2));
+      result += String.fromCharCode(parseInt(a[i], h));
     }
     return result;
   }
