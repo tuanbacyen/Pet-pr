@@ -20,7 +20,7 @@ class AabmttController < ApplicationController
           end
         end
       end
-      result_to_view [temp,0,0]
+      result_to_view [temp, 0, 0, 0]
     end
   end
 
@@ -34,7 +34,7 @@ class AabmttController < ApplicationController
   def timmod
     @soa = params[:soa].to_i
     @son = params[:son].to_i
-    result_to_view [tinhmod(@soa, @son),0,0]
+    result_to_view [tinhmod(@soa, @son), 0, 0, 0]
   end
 
   private
@@ -44,7 +44,8 @@ class AabmttController < ApplicationController
         render json: {
           data: a[0],
           x: a[1],
-          b: a[2]
+          b: a[2],
+          y: a[3]
         }
       }
     end
@@ -54,8 +55,10 @@ class AabmttController < ApplicationController
     i = 1
     x = [n, a]
     bb = [0, 1]
+    yy = [0]
     while(x[i] > 1)
       y = x[i-1] / x[i]
+      yy.push(y)
       x.push(x[i-1] - y*x[i])
       bb.push(bb[i-1] - y*bb[i])
       i = i + 1
@@ -64,7 +67,7 @@ class AabmttController < ApplicationController
     unless kq > 0
       kq += n
     end
-    return [kq, x, bb]
+    return [kq, x, bb, yy]
   end
 
   def UCLN a, b

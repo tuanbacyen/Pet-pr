@@ -46,8 +46,8 @@ $(document).ready(function(){
   });
 
   function send_ajax(a, n, c, url) {
-    $('#ptnd-show-kq').html('');
-    $('#ptnd-show-tbl').html('');
+    $('#ptnd-show-kq').html(' ');
+    $('#ptnd-show-tbl').html(' ');
     var check = 0;
     if ($('#ptnd-check-all').is(":checked"))
     {
@@ -64,9 +64,9 @@ $(document).ready(function(){
             $('#ptnd-show-kq').html('Không tồn tại số nghịch đảo.');
           }else{
             $('#ptnd-show-kq').html(data.data);
-            var tbl = '<table border="1"><tr><th>stt</th><th>x</th><th>b</th></tr>';
+            var tbl = '<table border="1"><tr><th>stt</th><th>x</th><th>b</th><th>y</th></tr>';
             for(i = 0; i < data.x.length; i++){
-              tbl += '<tr><th>' + (i+1) + '</th><th>'+ data.x[i] +'</th><th>'+ data.b[i] +'</th></tr>'
+              tbl += '<tr><th>' + (i+1) + '</th><th>'+ data.x[i] +'</th><th>'+ data.b[i] +'</th><th>'+ data.y[i] +'</th></tr>'
             }
             tbl += '</table>';
             $('#ptnd-show-tbl').html(tbl);
@@ -86,8 +86,8 @@ $(document).ready(function(){
   }
 
   function send_ajax_big(a, x, n, url) {
-    $('#bigmod-show-kq').html('');
-    $('#bigmod-show-tbl').html('');
+    $('#bigmod-show-kq').html(' ');
+    $('#bigmod-show-tbl').html(' ');
     $.ajax({
       type: 'POST',
       url: url,
@@ -109,7 +109,7 @@ $(document).ready(function(){
   }
 
   function send_ajax_mod(a, n, url) {
-    $('#bigmod-show-kq').html('');
+    $('#bigmod-show-kq').html(' ');
     $.ajax({
       type: 'POST',
       url: url,
